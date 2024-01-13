@@ -37,10 +37,12 @@
 /* Variables */
 
 :root {
-    --color1: #333;
-    --color2: #444;
-    --color3: #eee;
-    --color4: #ddd;
+    --main-text: #2F4F4F;
+    --main-bg: #C0C0C0;
+    --header-bg: #A9A9A9;
+    --header-text: #FFFFFF;
+    --sidebar-bg: #87CEEB;
+    --sidebar-hover:#B0E0E6;
     --border-radius:0px;
     --shadow:0px;
   }

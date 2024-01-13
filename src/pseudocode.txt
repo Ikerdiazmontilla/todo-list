@@ -1,0 +1,80 @@
+Features:
+Sidebar: 
+    All 
+    Today
+    Week
+    Important
+    Completed
+    Projects: add =>popup choose title and icon
+        edit =>popup project with title and icon chosen
+        delete => popup are you sure
+
+
+Main:
+title
+Total tasks in this section ------------------- add new(only in projects)
+Tasks:
+    Click to complete 
+    Show date
+    Button edit => popup create task but with the task information
+    button delete => popup are you sure?
+    button expand => popup information about the task
+
+Create task popup: Title, description, due date and priority. Once created=> check for done
+
+
+
+
+
+Javascript:
+
+to-dos: 
+    Properties:
+        Title
+        description
+        date
+        priority
+        state initial => todo
+
+    Methods:
+        changeTitle:
+        changeDescription
+        changeDate
+        changePriority
+        changeState
+
+
+Projects:
+    properties:
+        title
+        symbol
+        tasks
+
+    methods:
+        add task
+        delete task
+        modify task(task, taskData)
+        changeTitle
+        changeSymbol
+        getTaskInfo
+
+
+Father:
+    properties:
+    projects
+
+    methods:
+        deleteProject
+        addProject
+        changeProject
+        sortByPriority
+        sortByDate
+        sortByState
+        addTask(project, task, taskData)
+        removeTask(project, task)
+        modifyTask(project, task, taskData)
+        getTaskInfo(project, task)
+
+
+
+
