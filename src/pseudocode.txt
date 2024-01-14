@@ -34,7 +34,7 @@ to-dos:
         description
         date
         priority
-        state initial => todo
+        state: initial => todo
 
     Methods:
         changeTitle:
@@ -42,6 +42,7 @@ to-dos:
         changeDate
         changePriority
         changeState
+        showTaskInfo
 
 
 Projects:
@@ -54,9 +55,10 @@ Projects:
         add task
         delete task
         modify task(task, taskData)
+        getTaskInfo
         changeTitle
         changeSymbol
-        getTaskInfo
+        
 
 
 Father:
