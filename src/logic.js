@@ -218,3 +218,7 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
 
  }
 
+
+
+
+export {createTask, createProject, theGodContainerOfTheUniverse}
