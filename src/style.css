@@ -130,6 +130,8 @@ header{
   color: var(--header-text);
   padding: 20px;
   height: 15%;
+  display: flex;
+  align-items: center;
 }
 
 h1{
@@ -236,14 +238,26 @@ main{
   width: 100%;
 }
 
-.tasks-wrapper > p{
+.tasks-wrapper .header-wrapper{
+  display: flex;
+  width: 100%;
+
+}
+
+
+.header-wrapper > p{
   align-self: flex-start;
   margin-right: auto;
+  font-size: 1.5rem;
  
 }
 
+.header-wrapper > button{
+  font-size: 1.7rem;
+}
+
+
 .tasks-wrapper > p::after{
-  content: "(2)";
   position: relative;
   left:2px;
 }
