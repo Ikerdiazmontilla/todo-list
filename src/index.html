@@ -72,5 +72,103 @@
             ></a>
         </footer>
     </div>
+
+
+    <dialog id="project-dialog">
+        <div class="dialog-container">
+            <div class="header">
+                <h3>Add Project</h3>
+                <button type="button" class="close">✗</button>
+            </div>
+
+            <form action="index.js" method="post">
+                    <fieldset>
+                        
+                            
+                                <div class="project-title">
+                                    <label for="ta-title">Title*</label>
+                                    <input type="text"  name="title" required>
+                                </div>
+                           
+                                <p>Icon</p>
+                                <ul>
+                            <li>
+                                <label class ="radio-label" for="backpack">🎒</label>
+                                <input type="radio" class="symbol" value="backpack" name="backpack" >
+                            </li>
+                             <li>
+                                <label class ="radio-label" for="computer">💻</label>
+                                <input type="radio" class="symbol" value="computer" name="computer">
+                            </li>
+                            <li>
+                                <label class ="radio-label" for="microphone">🎤</label>
+                                <input type="radio" class="symbol" value="microphone" name="microphone">
+                            </li>
+                            <li>
+                                <label class ="radio-label" for="glove">🥊</label>
+                                <input type="radio" class="symbol" value="glove" name="glove">
+                            </li>
+                            <li>
+                                <label class ="radio-label" for="art">🎨</label>
+                                <input type="radio" class="symbol" value="art" name="art">
+                            </li>
+                            <li>
+                                <label class ="radio-label" for="gaming">🎮</label>
+                                <input type="radio" class="symbol" value="gaming" name="gaming">
+                            </li>
+                            
+                        </ul>
+                    </fieldset>
+                    <fieldset class="dialog-buttons">
+                        <button class="cancel" type="button">Cancel</button>
+                        <button class="submit">Add</button>
+                    </fieldset>
+            </form>
+            
+        </div>
+    </dialog>
+
+
+        <dialog id="task-dialog">
+            <div class="dialog-container">
+                <div class="header">
+                    <h3>Add Task</h3>
+                    <button type="button" class="close">✗</button>
+                </div>
+    
+                <form action="index.js" method="post">
+                        <fieldset>
+                            <ul>
+                                <li>
+                                    <label for="task-title">Title*</label>
+                                    <input type="text" id="task-title" name="title" required>
+                                </li>
+                                <li>
+                                    <label for="description">Description</label>
+                                    <textarea name="description" id="description" cols="30" rows="3"></textarea>
+                                </li>
+                                <li>
+                                    <label for="dueDate">Due Date</label>
+                                    <input type="date" name="dueDate" id="dueDate">
+                                </li>
+                                <li>
+                                    <label for="priority">Priority</label>
+                                    <select name="priority" id="priority">
+                                        <option value="low">Not important at all 😊</option>
+                                        <option value="medium">Considerably important 😋</option>
+                                        <option value="important">Either I do it or I die 🤑</option>
+                                    </select>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset class="dialog-buttons">
+                            <button class="cancel" type="button">Cancel</button>
+                            <button class="submit">Add</button>
+                        </fieldset>
+                </form>
+                
+            </div>
+
+    </dialog>
 </body>
 </html>
