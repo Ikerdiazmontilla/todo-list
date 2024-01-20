@@ -34,10 +34,10 @@
      }
     button{
       background-color: transparent;
-  color: inherit;
-  outline: none;
-  border: none;
-  padding: 0px;
+      color: inherit;
+      outline: none;
+      border: none;
+      padding: 0px;
     }
 
    a{
@@ -176,7 +176,7 @@ main{
   background-color: var(--button-bg);
   font-size: 1.1rem;
   color: inherit;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   transition: 0.4s;
   outline: none;
   border-radius: var(--border-radius);
@@ -187,7 +187,7 @@ main{
 
 .sidebar .sections button:hover{
   background-color: var(--sidebar-hover);
-  border:3px solid var(--sidebar-border-hover);
+  border:2px solid var(--sidebar-border-hover);
 }
 
 .sidebar .sections button.active{
@@ -207,11 +207,11 @@ main{
 }
 
 .sidebar .projects-header p{
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .sidebar .projects-header button{
-  font-size: 2rem;
+  font-size: 1.7rem;
   border-radius: var(--border-radius);
   margin-left: auto;
 }
@@ -219,10 +219,43 @@ main{
 .sidebar .projects-container{
   border-top: 2px solid var(--main-text);
   border-bottom: 2px solid var(--main-text);
-  padding: 2vh;
+  padding: 2vh 0px;
   display: flex;
   flex-direction: column;
   gap: 1vh;
+  overflow: auto;
+}
+
+.projects-container .project{
+  background-color: var(--button-bg);
+  color: inherit;
+  border: 2px solid transparent;
+  transition: 0.4s;
+  border-radius: var(--border-radius);
+  padding: 3px;
+  text-align: left;
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.projects-container .project:hover{
+  background-color: var(--sidebar-hover);
+  border:2px solid var(--sidebar-border-hover);
+}
+
+.projects-container .project.active{
+  background-color: var(--sidebar-border-hover);
+  color: var(--header-text);
+}
+
+.project .title-of-project{
+  margin-right:auto;
+  font-size: 1.1rem;
+}
+.project .project-button{
+  height: 20px;
+  aspect-ratio: 1/1;
 }
 
 .main-content{

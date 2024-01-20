@@ -98,10 +98,27 @@ let dom = {
     
     },
     editTask: function(){},
-    removeTask: function(){
-    },
+    removeTask: function(){},
     showInfo: function(){},
     toggleState: function(){},
+    displayProjectInMain: function(event){
+        let counter = 0
+        const projectButtons= document.querySelectorAll(".project")
+        projectButtons.forEach((button) => {
+            button.classList.remove("active")
+        })
+        dom.createMainContent(event)
+        const divTasks = document.querySelector(".tasks")
+        Object.values(theGodContainerOfTheUniverse.projects[event.target.textContent].tasks).forEach((task) => {
+            divTasks.appendChild(dom.createDomTask(task))
+            counter++
+        })
+        event.target.parentElement.classList.add("active")
+        const textHeader = document.querySelector(".header-p");
+        textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
+    },
+    editProject: function(){},
+    deleteProject: function(){},
     addEventListeners: function(){
         const categoryButtons = document.querySelectorAll(".category-button")
         categoryButtons.forEach((button) => {
@@ -145,6 +162,44 @@ let dom = {
         event.target.classList.add("active")
         const textHeader = document.querySelector(".header-p");
         textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
+    },
+    createDomProject: function(project){
+        const divProject = document.createElement("div")
+        divProject.classList.add("project")
+
+        const pTitle = document.createElement("p")
+        pTitle.classList.add("title-of-project")
+        pTitle.textContent = project.getProjectInfo().projectTitle
+        pTitle.addEventListener("click", this.displayProjectInMain.bind(this))
+
+        const buttonEdit = document.createElement("button")
+        buttonEdit.className = "project-button"
+        const imgEdit = new Image()
+        imgEdit.src = edit
+        buttonEdit.appendChild(imgEdit)
+        buttonEdit.addEventListener("click", this.editProject.bind(this))
+
+        const buttonTrash = document.createElement("button")
+        buttonTrash.className = "project-button"
+        const imgTrash = new Image()
+        imgTrash.src = trashCan
+        buttonTrash.appendChild(imgTrash)
+        buttonTrash.addEventListener("click", this.deleteProject.bind(this))
+
+        divProject.appendChild(pTitle)
+        divProject.appendChild(buttonEdit)
+        divProject.appendChild(buttonTrash)
+
+        return divProject
+    },
+    showProjectsInSidebar: function(){
+        const projectsContainer = document.querySelector(".projects-container")
+        while(projectsContainer.firstChild){
+            projectsContainer.removeChild(projectsContainer.firstChild)
+        }
+        Object.values(theGodContainerOfTheUniverse.projects).forEach((project) => {
+            projectsContainer.appendChild(this.createDomProject(project))
+        })
     }
 }
 

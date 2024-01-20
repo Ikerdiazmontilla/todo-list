@@ -81,6 +81,7 @@ console.log(task1.getInfo().dueDate)
 
 
 dom.addEventListeners()
+dom.showProjectsInSidebar()
 
 // const button = document.querySelector("#all")
 // button.addEventListener("click", () => {
