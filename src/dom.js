@@ -104,12 +104,17 @@ let dom = {
     addEventListeners: function(){
         const categoryButtons = document.querySelectorAll(".category-button")
         categoryButtons.forEach((button) => {
-            button.addEventListener("click", this.displayCategory.bind(this))
+            button.addEventListener("click", dom.displayCategory)
         })
     },
-    displayCategory: function(event) {
+    displayCategory: function(event){
         let counter = 0
         let tasksToDisplay;
+        const categoryButtons = document.querySelectorAll(".category-button")
+        categoryButtons.forEach((button) => {
+            button.classList.remove("active")
+        })
+
         dom.createMainContent(event)
         const divTasks = document.querySelector(".tasks")
         if(event.target.id === "all"){
@@ -136,7 +141,7 @@ let dom = {
         })
         event.target.classList.add("active")
         const textHeader = document.querySelector(".header-p");
-        textHeader.style.setProperty('--counter-value', '"(' + counter + ')"');
+        textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
     }
 }
 
