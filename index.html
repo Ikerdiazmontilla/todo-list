@@ -36,9 +36,9 @@
             <div class="main-content">
                 <h2>All</h2>
 
-                <div class="tasks-wrapper">
+                <div class="main-wrapper">
                     <div class="header-wrapper">
-                        <p>Tasks</p>
+                        <p class="header-p">Tasks</p>
                         <button id="add-task">⊕</button>
                     </div>
                     <div class="tasks">
@@ -60,13 +60,11 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </main>
 
         <footer class="footer">
-            <p>Copyright © 2021 Ikerdiazmontilla</p>
+            <p>Copyright © 2024 Ikerdiazmontilla</p>
             <a href="https://github.com/Ikerdiazmontilla" target="_blank">
               <i class="fab fa-github"></i
             ></a>
@@ -86,35 +84,35 @@
                         
                             
                                 <div class="project-title">
-                                    <label for="ta-title">Title*</label>
-                                    <input type="text"  name="title" required>
+                                    <label for="title-project">Title*</label>
+                                    <input type="text" id="title-project" name="title" required>
                                 </div>
                            
                                 <p>Icon</p>
                                 <ul>
                             <li>
                                 <label class ="radio-label" for="backpack">🎒</label>
-                                <input type="radio" class="symbol" value="backpack" name="backpack" >
+                                <input type="radio" class="symbol" value="backpack" id="backpack" name="projectSymbol" >
                             </li>
                              <li>
                                 <label class ="radio-label" for="computer">💻</label>
-                                <input type="radio" class="symbol" value="computer" name="computer">
+                                <input type="radio" class="symbol" value="computer" id="computer" name="projectSymbol">
                             </li>
                             <li>
                                 <label class ="radio-label" for="microphone">🎤</label>
-                                <input type="radio" class="symbol" value="microphone" name="microphone">
+                                <input type="radio" class="symbol" id="microphone" value="microphone" name="projectSymbol">
                             </li>
                             <li>
                                 <label class ="radio-label" for="glove">🥊</label>
-                                <input type="radio" class="symbol" value="glove" name="glove">
+                                <input type="radio" class="symbol" id="glove" value="glove" name="projectSymbol">
                             </li>
                             <li>
                                 <label class ="radio-label" for="art">🎨</label>
-                                <input type="radio" class="symbol" value="art" name="art">
+                                <input type="radio" class="symbol" id="art" value="art" name="projectSymbol">
                             </li>
                             <li>
                                 <label class ="radio-label" for="gaming">🎮</label>
-                                <input type="radio" class="symbol" value="gaming" name="gaming">
+                                <input type="radio" class="symbol" id="gaming" value="gaming" name="project-symbol">
                             </li>
                             
                         </ul>
@@ -140,20 +138,20 @@
                         <fieldset>
                             <ul>
                                 <li>
-                                    <label for="task-title">Title*</label>
-                                    <input type="text" id="task-title" name="title" required>
+                                    <label for="title">Title*</label>
+                                    <input type="text" id="title" name="taskTitle" required>
                                 </li>
                                 <li>
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="description" cols="30" rows="3"></textarea>
+                                    <textarea name="taskDescription" id="description" cols="30" rows="3"></textarea>
                                 </li>
                                 <li>
                                     <label for="dueDate">Due Date</label>
-                                    <input type="date" name="dueDate" id="dueDate">
+                                    <input type="date" name="TaskdueDate" id="dueDate">
                                 </li>
                                 <li>
                                     <label for="priority">Priority</label>
-                                    <select name="priority" id="priority">
+                                    <select name="Taskpriority" id="priority">
                                         <option value="low">Not important at all 😊</option>
                                         <option value="medium">Considerably important 😋</option>
                                         <option value="important">Either I do it or I die 🤑</option>
