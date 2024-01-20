@@ -57,7 +57,7 @@ let dom = {
         const imgCircle = new Image()
         imgCircle.src = circle
         buttonComplete.appendChild(imgCircle)
-        buttonComplete.addEventListener("click", this.toggleState)
+        buttonComplete.addEventListener("click", this.toggleState.bind(this));
     
         const pTitle = document.createElement("p")
         pTitle.className = "title"
@@ -72,21 +72,21 @@ let dom = {
         const imgEdit = new Image()
         imgEdit.src = edit
         buttonEdit.appendChild(imgEdit)
-        buttonEdit.addEventListener("click", this.editTask)
+        buttonEdit.addEventListener("click", this.editTask.bind(this))
     
         const buttonTrash = document.createElement("button")
         buttonTrash.className = "left trash"
         const imgTrash = new Image()
         imgTrash.src = trashCan
         buttonTrash.appendChild(imgTrash)
-        buttonTrash.addEventListener("click", this.removeTask)
+        buttonTrash.addEventListener("click", this.removeTask.bind(this))
     
         const buttonInfo = document.createElement("button")
         buttonInfo.className = "left info"
         const imgInfo = new Image()
         imgInfo.src = info
         buttonInfo.appendChild(imgInfo)
-        buttonInfo.addEventListener("click", this.showInfo)
+        buttonInfo.addEventListener("click", this.showInfo.bind(this))
     
         mainDiv.appendChild(buttonComplete)
         mainDiv.appendChild(pTitle)
@@ -102,28 +102,43 @@ let dom = {
     showInfo: function(){},
     toggleState: function(){},
     addEventListeners: function(){
-        const allButton = document.querySelector("#all")
-        allButton.addEventListener("click", (event) => {
-            this.createMainContent(event)
-            const divTasks = document.querySelector(".tasks")
-            const allTasks = theGodContainerOfTheUniverse.getAllTasks()
-            let counter = 0
-            Object.values(allTasks).forEach((task) => {
-                divTasks.appendChild(this.createDomTask(task))
-                counter++
-            })
-            event.target.classList.add("active")
-            const textHeader = document.querySelector(".header-p");
-            textHeader.style.setProperty('--counter-value', '"(' + counter + ')"');
-
+        const categoryButtons = document.querySelectorAll(".category-button")
+        categoryButtons.forEach((button) => {
+            button.addEventListener("click", this.displayCategory.bind(this))
         })
     },
+    displayCategory: function(event) {
+        let counter = 0
+        let tasksToDisplay;
+        dom.createMainContent(event)
+        const divTasks = document.querySelector(".tasks")
+        if(event.target.id === "all"){
+            tasksToDisplay = theGodContainerOfTheUniverse.getAllTasks()
+        }
+        else if(event.target.id === "today"){
+            tasksToDisplay = theGodContainerOfTheUniverse.sortByDate().dueToday
+        }
+        else if(event.target.id === "week"){
+            tasksToDisplay = theGodContainerOfTheUniverse.sortByDate().dueThisWeek
+        }
+        else if(event.target.id === "important"){
+            tasksToDisplay = theGodContainerOfTheUniverse.getImportantTasks()
+        }
+        else if(event.target.id === "todo"){
+            tasksToDisplay = theGodContainerOfTheUniverse.sortByState().todo
+        }
+        else if(event.target.id === "completed"){
+            tasksToDisplay = theGodContainerOfTheUniverse.sortByState().done
+        }
+        Object.values(tasksToDisplay).forEach((task) => {
+            divTasks.appendChild(dom.createDomTask(task))
+            counter++
+        })
+        event.target.classList.add("active")
+        const textHeader = document.querySelector(".header-p");
+        textHeader.style.setProperty('--counter-value', '"(' + counter + ')"');
+    }
 }
-
-
-
-
-
 
 export {dom}
 
