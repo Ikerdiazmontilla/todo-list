@@ -80,5 +80,59 @@ Father:
 
 Dom:
 
+    create functions:
+        to display a task
+        displayMainContent()
 
 
+
+
+    Add event listener to each button and run the logic function and add active to the button, change after tasks text
+    Figure out how to return all dialogs buttons
+    If I display a project, add the + button 
+    
+
+
+
+
+
+ <h2>All</h2>
+
+                <div class="main-wrapper">
+                    <div class="header-wrapper">
+                        <p>Tasks</p>
+                        <button id="add-task">⊕</button>
+                    </div>
+                    <div class="tasks">
+                        
+                    </div>
+                </div>
+
+
+
+<h2>All</h2>
+
+                <div class="main-wrapper">
+                    <div class="header-wrapper">
+                        <p>Tasks</p>
+                        <button id="add-task">⊕</button>
+                    </div>
+                    <div class="tasks">
+                        <div class="task">
+                            <button><img src="../src/images/circle.svg" alt=""></button>
+                            <p class="title"><s>Task title</s></p>
+                            <p class="date">2024-02-16</p>
+                            <button class="left edit"><img src="../src/images/edit.svg" alt=""></button>
+                            <button class="left trash"><img src="../src/images/delete.svg" alt=""></button>
+                            <button class="left info"><img src="../src/images/info.svg" alt=""></button>
+                        </div>
+                        <div class="task">
+                            <button><img src="../src/images/circle.svg" alt=""></button>
+                            <p class="title">Task title</p>
+                            <p class="date">2024-02-16</p>
+                            <button class="left edit"><img src="../src/images/edit.svg" alt=""></button>
+                            <button class="left trash"><img src="../src/images/delete.svg" alt=""></button>
+                            <button class="left info"><img src="../src/images/info.svg" alt=""></button>
+                        </div>
+                    </div>
+                </div>

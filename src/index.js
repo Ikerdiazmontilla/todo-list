@@ -1,5 +1,7 @@
 import "./style.css"
 import {createTask, createProject, theGodContainerOfTheUniverse} from "./logic"
+import {dom} from "./dom"
+
 
 
 
@@ -74,15 +76,20 @@ theGodContainerOfTheUniverse.modifyTaskFromProject(project1, task1,"Task 1 Modif
 let task3 = createTask("Task 3", "Description 3", "2024-01-17", "important")
 task3.changeState()
 theGodContainerOfTheUniverse.addTaskToProject(project1, task3)
-
-console.log(theGodContainerOfTheUniverse.sortByDate())
-
-
-console.log("All tests completed.");
+console.log(task1.getInfo().dueDate)
 
 
 
+dom.addEventListeners()
 
+// const button = document.querySelector("#all")
+// button.addEventListener("click", () => {
+//     const mainContainer = document.querySelector('.main-content');
+
+//     while(mainContainer.firstChild){
+//     mainContainer.removeChild()
+//     }
+// })
 
 
 

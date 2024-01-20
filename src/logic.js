@@ -163,6 +163,16 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
         const projectTitle = project.getProjectInfo().projectTitle
         this.projects[projectTitle].modifyTask(task ,newTitle, newDescription, newDueDate, newPriority)
     },
+
+    getAllTasks: function(){
+        let allTasks = {}
+        Object.values(this.projects).forEach(project => {
+            Object.values(project.tasks).forEach(task => {
+                allTasks[task.getInfo().title] = task
+            });
+        });
+        return allTasks
+    },
  
  
     getImportantTasks: function(){
