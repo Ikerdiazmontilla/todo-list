@@ -98,7 +98,8 @@ let dom = {
     
     },
     editTask: function(){},
-    removeTask: function(){},
+    removeTask: function(){
+    },
     showInfo: function(){},
     toggleState: function(){},
     addEventListeners: function(){
@@ -106,6 +107,8 @@ let dom = {
         categoryButtons.forEach((button) => {
             button.addEventListener("click", dom.displayCategory)
         })
+        const buttonAll = document.querySelector("#all")
+        buttonAll.click();
     },
     displayCategory: function(event){
         let counter = 0
