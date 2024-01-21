@@ -3,6 +3,7 @@ import circle from "./images/circle.svg";
 import edit from "./images/edit.svg";
 import trashCan from "./images/delete.svg"
 import info from "./images/info.svg"
+import completed from "./images/check-circle.svg"
 
 
 let dom = {
@@ -100,25 +101,38 @@ let dom = {
     editTask: function(){},
     removeTask: function(){},
     showInfo: function(){},
-    toggleState: function(){},
-    displayProjectInMain: function(event){
-        let counter = 0
+    toggleState: function(event){
+        if(event.target.parentElement.nextElementSibling.className !== "title" ){
+            const title = event.target.parentElement.nextElementSibling.querySelector("p")
+            const s = title.parentElement
+            s.parentElement.replaceChild(title, s)
+            const imgCircle = new Image()
+            imgCircle.src = circle
+            event.target.parentElement.replaceChild(imgCircle,event.target)
+        }
+        else{
+            const title = event.target.parentElement.nextElementSibling
+            const s = document.createElement("s")
+            s.className = "strikethrough"
+            title.parentElement.insertBefore(s,title)
+            s.appendChild(title)
+            const imgCompleted = new Image()
+            imgCompleted.src = completed
+            event.target.parentElement.replaceChild(imgCompleted,event.target )
+        }
+    },
+    editProject: function(){},
+    deleteProject: function(){},
+    removeActiveClass: function(){
+        const categoryButtons = document.querySelectorAll(".category-button")
+        categoryButtons.forEach((button) => {
+            button.classList.remove("active")
+        })
         const projectButtons= document.querySelectorAll(".project")
         projectButtons.forEach((button) => {
             button.classList.remove("active")
         })
-        dom.createMainContent(event)
-        const divTasks = document.querySelector(".tasks")
-        Object.values(theGodContainerOfTheUniverse.projects[event.target.textContent].tasks).forEach((task) => {
-            divTasks.appendChild(dom.createDomTask(task))
-            counter++
-        })
-        event.target.parentElement.classList.add("active")
-        const textHeader = document.querySelector(".header-p");
-        textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
     },
-    editProject: function(){},
-    deleteProject: function(){},
     addEventListeners: function(){
         const categoryButtons = document.querySelectorAll(".category-button")
         categoryButtons.forEach((button) => {
@@ -130,11 +144,7 @@ let dom = {
     displayCategory: function(event){
         let counter = 0
         let tasksToDisplay;
-        const categoryButtons = document.querySelectorAll(".category-button")
-        categoryButtons.forEach((button) => {
-            button.classList.remove("active")
-        })
-
+        dom.removeActiveClass()
         dom.createMainContent(event)
         const divTasks = document.querySelector(".tasks")
         if(event.target.id === "all"){
@@ -160,6 +170,19 @@ let dom = {
             counter++
         })
         event.target.classList.add("active")
+        const textHeader = document.querySelector(".header-p");
+        textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
+    },
+    displayProjectInMain: function(event){
+        let counter = 0
+        dom.removeActiveClass()
+        dom.createMainContent(event)
+        const divTasks = document.querySelector(".tasks")
+        Object.values(theGodContainerOfTheUniverse.projects[event.target.textContent].tasks).forEach((task) => {
+            divTasks.appendChild(dom.createDomTask(task))
+            counter++
+        })
+        event.target.parentElement.classList.add("active")
         const textHeader = document.querySelector(".header-p");
         textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
     },
