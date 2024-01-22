@@ -54,10 +54,8 @@
                 <button type="button" class="close">✗</button>
             </div>
 
-            <form action="index.js" method="post">
+            <form id="project-form">
                     <fieldset>
-                        
-                            
                                 <div class="project-title">
                                     <label for="title-project">Title*</label>
                                     <input type="text" id="title-project" name="title" required>
@@ -67,34 +65,34 @@
                                 <ul>
                             <li>
                                 <label class ="radio-label" for="backpack">🎒</label>
-                                <input type="radio" class="symbol" value="backpack" id="backpack" name="projectSymbol" >
+                                <input type="radio" class="symbol" value="🎒" id="backpack" name="projectSymbol" >
                             </li>
                              <li>
                                 <label class ="radio-label" for="computer">💻</label>
-                                <input type="radio" class="symbol" value="computer" id="computer" name="projectSymbol">
+                                <input type="radio" class="symbol" value="💻" id="computer" name="projectSymbol">
                             </li>
                             <li>
                                 <label class ="radio-label" for="microphone">🎤</label>
-                                <input type="radio" class="symbol" id="microphone" value="microphone" name="projectSymbol">
+                                <input type="radio" class="symbol" id="microphone" value="🎤" name="projectSymbol">
                             </li>
                             <li>
                                 <label class ="radio-label" for="glove">🥊</label>
-                                <input type="radio" class="symbol" id="glove" value="glove" name="projectSymbol">
+                                <input type="radio" class="symbol" id="glove" value="🥊" name="projectSymbol">
                             </li>
                             <li>
                                 <label class ="radio-label" for="art">🎨</label>
-                                <input type="radio" class="symbol" id="art" value="art" name="projectSymbol">
+                                <input type="radio" class="symbol" id="art" value="🎨" name="projectSymbol">
                             </li>
                             <li>
                                 <label class ="radio-label" for="gaming">🎮</label>
-                                <input type="radio" class="symbol" id="gaming" value="gaming" name="project-symbol">
+                                <input type="radio" class="symbol" id="gaming" value="🎮" name="project-symbol">
                             </li>
                             
                         </ul>
                     </fieldset>
                     <fieldset class="dialog-buttons">
                         <button class="cancel" type="button">Cancel</button>
-                        <button class="submit">Add</button>
+                        <button class="submit" type="submit">Add</button>
                     </fieldset>
             </form>
             
@@ -109,7 +107,7 @@
                     <button type="button" class="close">✗</button>
                 </div>
     
-                <form action="index.js" method="post">
+                <form id="task-form">
                         <fieldset>
                             <ul>
                                 <li>
@@ -122,11 +120,11 @@
                                 </li>
                                 <li>
                                     <label for="dueDate">Due Date</label>
-                                    <input type="date" name="TaskdueDate" id="dueDate">
+                                    <input type="date" name="taskDueDate" id="dueDate">
                                 </li>
                                 <li>
                                     <label for="priority">Priority</label>
-                                    <select name="Taskpriority" id="priority">
+                                    <select name="taskPriority" id="priority">
                                         <option value="low">Not important at all 😊</option>
                                         <option value="medium">Considerably important 😋</option>
                                         <option value="important">Either I do it or I die 🤑</option>
