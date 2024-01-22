@@ -1,4 +1,4 @@
-import { createTask, theGodContainerOfTheUniverse } from "./logic";
+import { createTask, theGodContainerOfTheUniverse, createProject } from "./logic";
 import circle from "./images/circle.svg";
 import edit from "./images/edit.svg";
 import trashCan from "./images/delete.svg"
@@ -34,6 +34,7 @@ let dom = {
             const addButton = document.createElement('button');
             addButton.id = 'add-task';
             addButton.textContent = '⊕';
+            addButton.addEventListener("click", this.addTask.bind(this))
             headerWrapper.appendChild(addButton);
         }
     
@@ -53,12 +54,6 @@ let dom = {
         const taskInfo = task.getInfo()
         const mainDiv = document.createElement('div')
         mainDiv.className = "task"
-    
-        const buttonComplete = document.createElement("button")
-        const imgCircle = new Image()
-        imgCircle.src = circle
-        buttonComplete.appendChild(imgCircle)
-        buttonComplete.addEventListener("click", this.toggleState.bind(this));
     
         const pTitle = document.createElement("p")
         pTitle.className = "title"
@@ -88,9 +83,25 @@ let dom = {
         imgInfo.src = info
         buttonInfo.appendChild(imgInfo)
         buttonInfo.addEventListener("click", this.showInfo.bind(this))
-    
-        mainDiv.appendChild(buttonComplete)
-        mainDiv.appendChild(pTitle)
+
+        const buttonComplete = document.createElement("button")
+        const imgCircle = new Image()
+        if(taskInfo.state === "done"){
+            imgCircle.src = completed
+            buttonComplete.appendChild(imgCircle)
+            buttonComplete.addEventListener("click", this.toggleState.bind(this));
+            const strikethrough = document.createElement('s')
+            strikethrough.appendChild(pTitle)
+            mainDiv.appendChild(buttonComplete)
+            mainDiv.appendChild(strikethrough)
+        }
+        else{
+            imgCircle.src = circle
+            buttonComplete.appendChild(imgCircle)
+            buttonComplete.addEventListener("click", this.toggleState.bind(this));
+            mainDiv.appendChild(buttonComplete)
+            mainDiv.appendChild(pTitle)
+        }
         mainDiv.appendChild(pDate)
         mainDiv.appendChild(buttonEdit)
         mainDiv.appendChild(buttonTrash)
@@ -98,11 +109,27 @@ let dom = {
         return mainDiv
     
     },
+    addTask: function(event){
+        const taskDialog = document.querySelector("#task-dialog")
+        taskDialog.showModal()
+        const closeButton = taskDialog.querySelector(".close")
+        closeButton.addEventListener("click", () => taskDialog.close())
+        const cancelButton = taskDialog.querySelector(".cancel")
+        cancelButton.addEventListener("click", () => taskDialog.close())
+    },
     editTask: function(){},
     removeTask: function(){},
     showInfo: function(){},
     toggleState: function(event){
-        if(event.target.parentElement.nextElementSibling.className !== "title" ){
+        let taskTitle;
+        if(event.target.parentElement.nextElementSibling.querySelector("p")){
+            taskTitle = event.target.parentElement.nextElementSibling.querySelector("p").textContent
+        }
+        else{
+            taskTitle = event.target.parentElement.nextElementSibling.textContent
+        }
+        theGodContainerOfTheUniverse.toggleTaskState(taskTitle)
+        if(theGodContainerOfTheUniverse.getTaskInfoFromProject(taskTitle).state === "to-do" ){
             const title = event.target.parentElement.nextElementSibling.querySelector("p")
             const s = title.parentElement
             s.parentElement.replaceChild(title, s)
@@ -113,13 +140,20 @@ let dom = {
         else{
             const title = event.target.parentElement.nextElementSibling
             const s = document.createElement("s")
-            s.className = "strikethrough"
             title.parentElement.insertBefore(s,title)
             s.appendChild(title)
             const imgCompleted = new Image()
             imgCompleted.src = completed
             event.target.parentElement.replaceChild(imgCompleted,event.target )
         }
+    },
+    addProject: function(){
+        const projectDialog = document.querySelector("#project-dialog")
+        projectDialog.showModal()
+        const closeButton = projectDialog.querySelector(".close")
+        closeButton.addEventListener("click", () => projectDialog.close())
+        const cancelButton = projectDialog.querySelector(".cancel")
+        cancelButton.addEventListener("click", () => projectDialog.close())
     },
     editProject: function(){},
     deleteProject: function(){},
@@ -140,6 +174,51 @@ let dom = {
         })
         const buttonAll = document.querySelector("#all")
         buttonAll.click();
+        const addProjectButton = document.querySelector("#add-project")
+        addProjectButton.addEventListener("click", dom.addProject)
+        const buttonSymbols = document.querySelectorAll(".radio-label")
+        buttonSymbols.forEach((button)=>{
+            button.addEventListener("click", (event) => {
+                buttonSymbols.forEach((button) => {
+                    button.classList.remove("active")
+                })
+                event.target.classList.add("active")
+            })
+        })
+        const projectForm = document.querySelector("#project-form")
+        projectForm.addEventListener("submit", (event) => {
+            event.preventDefault()
+            let projectTitle = event.target.elements["title"].value
+            let projectSymbol = event.target.elements["projectSymbol"].value
+            let newProject = createProject(projectTitle, projectSymbol)
+            theGodContainerOfTheUniverse.addProject(newProject)
+            dom.showProjectsInSidebar()
+            const projectDialog = document.querySelector("#project-dialog")
+            projectDialog.close()
+        })
+        const taskForm = document.querySelector("#task-form")
+        taskForm.addEventListener("submit", (event) => {
+            event.preventDefault()
+            let taskTitle = event.target.elements["taskTitle"].value
+            let taskDescription = event.target.elements["taskDescription"].value
+            let taskDueDate = event.target.elements["taskDueDate"].value
+            let taskPriority = event.target.elements["taskPriority"].value
+            let newTask = createTask(taskTitle, taskDescription,taskDueDate,taskPriority)
+
+            const currentProjectTitle= document.querySelector("h2").textContent.substring(2)
+            theGodContainerOfTheUniverse.addTaskToProject(currentProjectTitle, newTask)
+
+            const divTasks = document.querySelector(".tasks")
+            divTasks.appendChild(dom.createDomTask(newTask))
+
+            const textHeader = document.querySelector(".header-p");
+            let counter = 0
+            divTasks.childNodes.forEach(() => counter++)
+            textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
+
+            const taskDialog = document.querySelector("#task-dialog")
+            taskDialog.close()
+        })
     },
     displayCategory: function(event){
         let counter = 0
@@ -178,7 +257,7 @@ let dom = {
         dom.removeActiveClass()
         dom.createMainContent(event)
         const divTasks = document.querySelector(".tasks")
-        Object.values(theGodContainerOfTheUniverse.projects[event.target.textContent].tasks).forEach((task) => {
+        Object.values(theGodContainerOfTheUniverse.projects[event.target.textContent.substring(2)].tasks).forEach((task) => {
             divTasks.appendChild(dom.createDomTask(task))
             counter++
         })
@@ -192,7 +271,7 @@ let dom = {
 
         const pTitle = document.createElement("p")
         pTitle.classList.add("title-of-project")
-        pTitle.textContent = project.getProjectInfo().projectTitle
+        pTitle.textContent = `${project.getProjectInfo().projectSymbol} ${project.getProjectInfo().projectTitle}`
         pTitle.addEventListener("click", this.displayProjectInMain.bind(this))
 
         const buttonEdit = document.createElement("button")

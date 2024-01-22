@@ -69,14 +69,12 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
     }
  
  
-    const deleteTask = (task) => {
-        let taskTitle = task.getInfo().title
+    const deleteTask = (taskTitle) => {
         delete tasks[taskTitle]
     }
  
  
-    const modifyTask = (task, newTitle, newDescription, newDueDate, newPriority) => {
-        const currentTitle = task.getInfo().title
+    const modifyTask = (currentTitle, newTitle, newDescription, newDueDate, newPriority) => {
         const newTask = tasks[currentTitle];
         newTask.changeTitle(newTitle);
         newTask.changeDescription(newDescription);
@@ -87,8 +85,7 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
     }
  
  
-    const getTaskInfo = (task) => {
-        let taskTitle = task.getInfo().title
+    const getTaskInfo = (taskTitle) => {
         return tasks[taskTitle].getInfo()
     }
  
@@ -125,14 +122,12 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
     },
  
  
-    removeProject: function(project){
-        const projectTitle = project.getProjectInfo().projectTitle
+    removeProject: function(projectTitle){
         delete this.projects[projectTitle];
     },
  
  
-    modifyProject: function(project, newTitle, newSymbol){
-        const currentTitle = project.getProjectInfo().projectTitle
+    modifyProject: function(currentTitle, newTitle, newSymbol){
         const newProject = this.projects[currentTitle]
         newProject.changeProjectTitle(newTitle)
         newProject.changeProjectSymbol(newSymbol)
@@ -141,27 +136,38 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
     },
  
  
-    addTaskToProject: function(project, task){
-        const projectTitle = project.getProjectInfo().projectTitle
+    addTaskToProject: function(projectTitle, task){
         this.projects[projectTitle].addTask(task)
     },
  
  
-    removeTaskFromProject: function(project, task){
-        const projectTitle = project.getProjectInfo().projectTitle
-        this.projects[projectTitle].deleteTask(task)
+    removeTaskFromProject: function(projectTitle, taskTitle){
+        this.projects[projectTitle].deleteTask(taskTitle)
     },
  
  
-    getTaskInfoFromProject: function(project, task){
-        const projectTitle = project.getProjectInfo().projectTitle
-        return this.projects[projectTitle].getTaskInfo(task)
+    getTaskInfoFromProject: function(taskTitle){
+        let taskInfo;
+        Object.values(this.projects).forEach(project => {
+            if(project.tasks[taskTitle]){
+                taskInfo = project.tasks[taskTitle].getInfo()
+            }
+        });
+        return taskInfo
+        
     },
  
  
-    modifyTaskFromProject: function(project, task, newTitle, newDescription, newDueDate, newPriority){
-        const projectTitle = project.getProjectInfo().projectTitle
-        this.projects[projectTitle].modifyTask(task ,newTitle, newDescription, newDueDate, newPriority)
+    modifyTaskFromProject: function(projectTitle, currentTitle, newTitle, newDescription, newDueDate, newPriority){
+        this.projects[projectTitle].modifyTask(currentTitle,newTitle, newDescription, newDueDate, newPriority)
+    },
+
+    toggleTaskState: function(taskTitle){
+        Object.values(this.projects).forEach(project => {
+            if(project.tasks[taskTitle]){
+                project.tasks[taskTitle].changeState()
+            }
+        });
     },
 
     getAllTasks: function(){

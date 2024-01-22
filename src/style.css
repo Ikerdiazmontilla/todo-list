@@ -327,7 +327,7 @@ main{
   background-color: var(--main-hover);
 }
 
-.title, .strikethrough{
+.title, s{
   margin-right: auto;
 }
 
