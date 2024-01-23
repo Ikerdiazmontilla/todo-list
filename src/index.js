@@ -22,8 +22,8 @@ console.assert(project1.getProjectInfo().projectTitle === "Project 1", "Project 
 console.assert(project2.getProjectInfo().projectTitle === "Project 2", "Project 2 creation failed");
 
 // Adding Tasks to Projects
-project1.addTask(task1);
-project2.addTask(task2);
+// project1.addTask(task1);
+// project2.addTask(task2);
 
 // // Testing Adding Tasks to Projects
 // console.assert(project1.tasks[task1.getInfo().title] === task1, "Adding task1 to project1 failed");
@@ -73,9 +73,9 @@ theGodContainerOfTheUniverse.addProject(project1);
 
 // theGodContainerOfTheUniverse.modifyTaskFromProject(project1, task1,"Task 1 Modified", "Updated Description 1", "2024-01-20", "important")
 
-let task3 = createTask("Task 3", "Description 3", "2024-01-17", "important")
-theGodContainerOfTheUniverse.addTaskToProject("Project 1", task3)
-console.log(task1.getInfo().dueDate)
+// let task3 = createTask("Task 3", "Description 3", "2024-01-17", "important")
+// theGodContainerOfTheUniverse.addTaskToProject("Project 1", task3)
+// console.log(task1.getInfo().dueDate)
 
 
 

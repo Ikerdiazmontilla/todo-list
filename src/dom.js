@@ -7,7 +7,7 @@ import completed from "./images/check-circle.svg"
 
 
 let dom = {
-    createMainContent: function(event){
+    displayMainContent: function(event){
         const mainContainer = document.querySelector('.main-content');
 
         while(mainContainer.firstChild){
@@ -48,8 +48,6 @@ let dom = {
         mainWrapper.appendChild(divTasks)
         mainContainer.appendChild(mainWrapper)
     },
-
-
     createDomTask: function(task){
         const taskInfo = task.getInfo()
         const mainDiv = document.createElement('div')
@@ -113,9 +111,11 @@ let dom = {
         const taskDialog = document.querySelector("#task-dialog")
         taskDialog.showModal()
         const closeButton = taskDialog.querySelector(".close")
-        closeButton.addEventListener("click", () => taskDialog.close())
+        closeButton.addEventListener("click", dom.closeDialog)
         const cancelButton = taskDialog.querySelector(".cancel")
-        cancelButton.addEventListener("click", () => taskDialog.close())
+        cancelButton.addEventListener("click", dom.closeDialog)
+        const addButton = taskDialog.querySelector(".add")
+        
     },
     editTask: function(){},
     removeTask: function(){},
@@ -147,13 +147,18 @@ let dom = {
             event.target.parentElement.replaceChild(imgCompleted,event.target )
         }
     },
+
+
+
+
+
     addProject: function(){
         const projectDialog = document.querySelector("#project-dialog")
         projectDialog.showModal()
         const closeButton = projectDialog.querySelector(".close")
-        closeButton.addEventListener("click", () => projectDialog.close())
+        closeButton.addEventListener("click", dom.closeDialog)
         const cancelButton = projectDialog.querySelector(".cancel")
-        cancelButton.addEventListener("click", () => projectDialog.close())
+        cancelButton.addEventListener("click", dom.closeDialog)
     },
     editProject: function(){},
     deleteProject: function(){},
@@ -167,97 +172,13 @@ let dom = {
             button.classList.remove("active")
         })
     },
-    addEventListeners: function(){
-        const categoryButtons = document.querySelectorAll(".category-button")
-        categoryButtons.forEach((button) => {
-            button.addEventListener("click", dom.displayCategory)
-        })
-        const buttonAll = document.querySelector("#all")
-        buttonAll.click();
-        const addProjectButton = document.querySelector("#add-project")
-        addProjectButton.addEventListener("click", dom.addProject)
-        const buttonSymbols = document.querySelectorAll(".radio-label")
-        buttonSymbols.forEach((button)=>{
-            button.addEventListener("click", (event) => {
-                buttonSymbols.forEach((button) => {
-                    button.classList.remove("active")
-                })
-                event.target.classList.add("active")
-            })
-        })
-        const projectForm = document.querySelector("#project-form")
-        projectForm.addEventListener("submit", (event) => {
-            event.preventDefault()
-            let projectTitle = event.target.elements["title"].value
-            let projectSymbol = event.target.elements["projectSymbol"].value
-            let newProject = createProject(projectTitle, projectSymbol)
-            theGodContainerOfTheUniverse.addProject(newProject)
-            dom.showProjectsInSidebar()
-            const projectDialog = document.querySelector("#project-dialog")
-            projectDialog.close()
-        })
-        const taskForm = document.querySelector("#task-form")
-        taskForm.addEventListener("submit", (event) => {
-            event.preventDefault()
-            let taskTitle = event.target.elements["taskTitle"].value
-            let taskDescription = event.target.elements["taskDescription"].value
-            let taskDueDate = event.target.elements["taskDueDate"].value
-            let taskPriority = event.target.elements["taskPriority"].value
-            let newTask = createTask(taskTitle, taskDescription,taskDueDate,taskPriority)
 
-            const currentProjectTitle= document.querySelector("h2").textContent.substring(2)
-            theGodContainerOfTheUniverse.addTaskToProject(currentProjectTitle, newTask)
-
-            const divTasks = document.querySelector(".tasks")
-            divTasks.appendChild(dom.createDomTask(newTask))
-
-            const textHeader = document.querySelector(".header-p");
-            let counter = 0
-            divTasks.childNodes.forEach(() => counter++)
-            textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
-
-            const taskDialog = document.querySelector("#task-dialog")
-            taskDialog.close()
-        })
-    },
-    displayCategory: function(event){
-        let counter = 0
-        let tasksToDisplay;
-        dom.removeActiveClass()
-        dom.createMainContent(event)
-        const divTasks = document.querySelector(".tasks")
-        if(event.target.id === "all"){
-            tasksToDisplay = theGodContainerOfTheUniverse.getAllTasks()
-        }
-        else if(event.target.id === "today"){
-            tasksToDisplay = theGodContainerOfTheUniverse.sortByDate().dueToday
-        }
-        else if(event.target.id === "week"){
-            tasksToDisplay = theGodContainerOfTheUniverse.sortByDate().dueThisWeek
-        }
-        else if(event.target.id === "important"){
-            tasksToDisplay = theGodContainerOfTheUniverse.getImportantTasks()
-        }
-        else if(event.target.id === "todo"){
-            tasksToDisplay = theGodContainerOfTheUniverse.sortByState().todo
-        }
-        else if(event.target.id === "completed"){
-            tasksToDisplay = theGodContainerOfTheUniverse.sortByState().done
-        }
-        Object.values(tasksToDisplay).forEach((task) => {
-            divTasks.appendChild(dom.createDomTask(task))
-            counter++
-        })
-        event.target.classList.add("active")
-        const textHeader = document.querySelector(".header-p");
-        textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
-    },
     displayProjectInMain: function(event){
         let counter = 0
         dom.removeActiveClass()
-        dom.createMainContent(event)
+        dom.displayMainContent(event)
         const divTasks = document.querySelector(".tasks")
-        Object.values(theGodContainerOfTheUniverse.projects[event.target.textContent.substring(2)].tasks).forEach((task) => {
+        Object.values(theGodContainerOfTheUniverse.projects[event.target.textContent.substring(2).trimStart()].tasks).forEach((task) => {
             divTasks.appendChild(dom.createDomTask(task))
             counter++
         })
@@ -265,6 +186,8 @@ let dom = {
         const textHeader = document.querySelector(".header-p");
         textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
     },
+
+
     createDomProject: function(project){
         const divProject = document.createElement("div")
         divProject.classList.add("project")
@@ -302,8 +225,124 @@ let dom = {
         Object.values(theGodContainerOfTheUniverse.projects).forEach((project) => {
             projectsContainer.appendChild(this.createDomProject(project))
         })
-    }
+    },
+
+    closeDialog: function(event){
+        let dialog = event.target.closest("dialog")
+        let form = dialog.querySelector("form")
+        form.reset()
+        dialog.close()
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    addEventListeners: function(){
+        const categoryButtons = document.querySelectorAll(".category-button")
+        categoryButtons.forEach((button) => {
+            button.addEventListener("click", dom.displayCategory)
+        })
+        const buttonAll = document.querySelector("#all")
+        buttonAll.click();
+
+
+        const addProjectButton = document.querySelector("#add-project")
+        addProjectButton.addEventListener("click", dom.addProject)
+        const buttonSymbols = document.querySelectorAll(".radio-label")
+        buttonSymbols.forEach((button)=>{
+            button.addEventListener("click", (event) => {
+                buttonSymbols.forEach((button) => {
+                    button.classList.remove("active")
+                })
+                event.target.classList.add("active")
+            })
+        })
+        const projectForm = document.querySelector("#project-form")
+        projectForm.addEventListener("submit", (event) => {
+            event.preventDefault()
+            let projectTitle = event.target.elements["title"].value
+            let projectSymbol = event.target.elements["projectSymbol"].value
+            let newProject = createProject(projectTitle, projectSymbol)
+            theGodContainerOfTheUniverse.addProject(newProject)
+            dom.showProjectsInSidebar()
+            const projectDialog = document.querySelector("#project-dialog")
+            projectForm.reset()
+            projectDialog.close()
+        })
+
+
+
+        const taskForm = document.querySelector("#task-form")
+        taskForm.addEventListener("submit", (event) => {
+            event.preventDefault()
+            let taskTitle = event.target.elements["taskTitle"].value
+            let taskDescription = event.target.elements["taskDescription"].value
+            let taskDueDate = event.target.elements["taskDueDate"].value
+            let taskPriority = event.target.elements["taskPriority"].value
+            const newTask = createTask(taskTitle, taskDescription,taskDueDate,taskPriority)
+
+            const currentProjectTitle= document.querySelector("h2").textContent.substring(2).trimStart()
+            theGodContainerOfTheUniverse.addTaskToProject(currentProjectTitle, newTask)
+
+            const divTasks = document.querySelector(".tasks")
+            divTasks.appendChild(dom.createDomTask(newTask))
+
+            const textHeader = document.querySelector(".header-p");
+            let counter = 0
+            divTasks.childNodes.forEach(() => counter++)
+            textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
+
+            taskForm.reset()
+            const taskDialog = document.querySelector("#task-dialog")
+            taskDialog.close()
+        })
+    },
+    displayCategory: function(event){
+        let counter = 0
+        let tasksToDisplay;
+        dom.removeActiveClass()
+        dom.displayMainContent(event)
+        const divTasks = document.querySelector(".tasks")
+        if(event.target.id === "all"){
+            tasksToDisplay = theGodContainerOfTheUniverse.getAllTasks()
+        }
+        else if(event.target.id === "today"){
+            tasksToDisplay = theGodContainerOfTheUniverse.sortByDate().dueToday
+        }
+        else if(event.target.id === "week"){
+            tasksToDisplay = theGodContainerOfTheUniverse.sortByDate().dueThisWeek
+        }
+        else if(event.target.id === "important"){
+            tasksToDisplay = theGodContainerOfTheUniverse.getImportantTasks()
+        }
+        else if(event.target.id === "todo"){
+            tasksToDisplay = theGodContainerOfTheUniverse.sortByState().todo
+        }
+        else if(event.target.id === "completed"){
+            tasksToDisplay = theGodContainerOfTheUniverse.sortByState().done
+        }
+        Object.values(tasksToDisplay).forEach((task) => {
+            divTasks.appendChild(dom.createDomTask(task))
+            counter++
+        })
+        event.target.classList.add("active")
+        const textHeader = document.querySelector(".header-p");
+        textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
+    },
 }
+
+
 
 export {dom}
 
