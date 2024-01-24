@@ -107,7 +107,7 @@ let dom = {
         return mainDiv
     
     },
-    addTask: function(event){
+    displayTaskDialog: function(){
         const taskDialog = document.querySelector("#task-dialog")
         taskDialog.showModal()
         const closeButton = taskDialog.querySelector(".close")
@@ -117,8 +117,90 @@ let dom = {
         const addButton = taskDialog.querySelector(".add")
         
     },
-    editTask: function(){},
-    removeTask: function(){},
+    addTask: function(){
+        this.displayTaskDialog()
+        function addTaskEventListener(event) {
+            event.preventDefault()
+            let taskTitle = event.target.elements["taskTitle"].value
+            let taskDescription = event.target.elements["taskDescription"].value
+            let taskDueDate = event.target.elements["taskDueDate"].value
+            let taskPriority = event.target.elements["taskPriority"].value
+            const newTask = createTask(taskTitle, taskDescription,taskDueDate,taskPriority)
+
+            const currentProjectTitle= document.querySelector("h2").textContent.substring(2).trimStart()
+            theGodContainerOfTheUniverse.addTaskToProject(currentProjectTitle, newTask)
+
+            const divTasks = document.querySelector(".tasks")
+            divTasks.appendChild(dom.createDomTask(newTask))
+
+            const textHeader = document.querySelector(".header-p");
+            let counter = 0
+            divTasks.childNodes.forEach(() => counter++)
+            textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
+
+            taskForm.reset()
+            const taskDialog = document.querySelector("#task-dialog")
+            taskDialog.close()
+            taskForm.removeEventListener("submit", addTaskEventListener)
+        }
+        const taskForm = document.querySelector("#task-form")
+        taskForm.addEventListener("submit",addTaskEventListener)
+
+    },
+    editTask: function(event){
+        this.displayTaskDialog()
+        const taskForm = document.querySelector("#task-form")
+        const currentTitle = event.currentTarget.parentElement.querySelector("p").textContent
+        const taskInfo = theGodContainerOfTheUniverse.getTaskInfoFromProject(currentTitle)
+        taskForm.elements["taskTitle"].value = taskInfo.title
+        taskForm.elements["taskDescription"].value = taskInfo.description
+        taskForm.elements["taskDueDate"].value = taskInfo.dueDate
+        taskForm.elements["taskPriority"].value = taskInfo.priority
+        
+        function editTaskEventListener(event) {
+            event.preventDefault()
+            let taskTitle = event.target.elements["taskTitle"].value
+            let taskDescription = event.target.elements["taskDescription"].value
+            let taskDueDate = event.target.elements["taskDueDate"].value
+            let taskPriority = event.target.elements["taskPriority"].value
+
+            const projectTitle= document.querySelector("h2").textContent.substring(2).trimStart()
+            theGodContainerOfTheUniverse.modifyTaskFromProject(projectTitle,currentTitle,taskTitle,taskDescription,taskDueDate,taskPriority)
+
+            const divTasks = document.querySelector(".tasks")
+            divTasks.innerHTML = ""
+            const textHeader = document.querySelector(".header-p");
+            let counter = 0
+            Object.values(theGodContainerOfTheUniverse.projects[projectTitle].tasks).forEach((task) => {
+            divTasks.appendChild(dom.createDomTask(task))
+            counter++
+        })
+            textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
+
+            taskForm.reset()
+            const taskDialog = document.querySelector("#task-dialog")
+            taskDialog.close()
+            taskForm.removeEventListener("submit", editTaskEventListener)
+        }
+        taskForm.addEventListener("submit",editTaskEventListener)
+    },
+    
+    removeTask: function(event){
+        event.stopPropagation()
+        const taskTitle = event.currentTarget.parentElement.querySelector("p").textContent
+        const h2 = document.querySelector("h2").textContent.substring('2').trimStart()
+        theGodContainerOfTheUniverse.removeTaskFromProject(h2,taskTitle)
+        const divTasks = document.querySelector(".tasks")
+        divTasks.innerHTML = ""
+        const textHeader = document.querySelector(".header-p");
+        let counter = 0
+        Object.values(theGodContainerOfTheUniverse.projects[projectTitle].tasks).forEach((task) => {
+            divTasks.appendChild(dom.createDomTask(task))
+            counter++
+        })
+        textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
+        
+    },
     showInfo: function(){},
     toggleState: function(event){
         let taskTitle;
@@ -311,33 +393,6 @@ let dom = {
                 dom.removeActiveClassFromSymbols()
                 event.target.classList.add("active")
             })
-        })
-
-
-
-        const taskForm = document.querySelector("#task-form")
-        taskForm.addEventListener("submit", (event) => {
-            event.preventDefault()
-            let taskTitle = event.target.elements["taskTitle"].value
-            let taskDescription = event.target.elements["taskDescription"].value
-            let taskDueDate = event.target.elements["taskDueDate"].value
-            let taskPriority = event.target.elements["taskPriority"].value
-            const newTask = createTask(taskTitle, taskDescription,taskDueDate,taskPriority)
-
-            const currentProjectTitle= document.querySelector("h2").textContent.substring(2).trimStart()
-            theGodContainerOfTheUniverse.addTaskToProject(currentProjectTitle, newTask)
-
-            const divTasks = document.querySelector(".tasks")
-            divTasks.appendChild(dom.createDomTask(newTask))
-
-            const textHeader = document.querySelector(".header-p");
-            let counter = 0
-            divTasks.childNodes.forEach(() => counter++)
-            textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
-
-            taskForm.reset()
-            const taskDialog = document.querySelector("#task-dialog")
-            taskDialog.close()
         })
     },
     displayCategory: function(event){
