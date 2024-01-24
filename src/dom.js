@@ -200,7 +200,17 @@ let dom = {
 
         projectForm.addEventListener("submit", editEventListener)
     },
-    deleteProject: function(){},
+    deleteProject: function(event){
+        event.stopPropagation()
+        const projectTitle = event.currentTarget.parentElement.querySelector("p").textContent.substring("2").trimStart()
+        const h2 = document.querySelector("h2").textContent.substring('2').trimStart()
+        if(h2 === projectTitle){
+            const buttonAll = document.querySelector("#all")
+            buttonAll.click();
+        }
+        theGodContainerOfTheUniverse.removeProject(projectTitle)
+        dom.showProjectsInSidebar()
+    },
     removeActiveClassFromSidebar: function(){
         const categoryButtons = document.querySelectorAll(".category-button")
         categoryButtons.forEach((button) => {
