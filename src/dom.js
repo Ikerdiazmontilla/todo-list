@@ -152,7 +152,7 @@ let dom = {
 
 
 
-    addProject: function(){
+    displayProjectDialog: function(){
         const projectDialog = document.querySelector("#project-dialog")
         projectDialog.showModal()
         const closeButton = projectDialog.querySelector(".close")
@@ -160,9 +160,48 @@ let dom = {
         const cancelButton = projectDialog.querySelector(".cancel")
         cancelButton.addEventListener("click", dom.closeDialog)
     },
-    editProject: function(){},
+    addProject: function(){
+        dom.displayProjectDialog()
+        const projectForm = document.querySelector("#project-form")
+        function addProjectEventListener(event) {
+            event.preventDefault()
+            let projectTitle = event.target.elements["title"].value
+            let projectSymbol = event.target.elements["projectSymbol"].value
+            let newProject = createProject(projectTitle, projectSymbol)
+            theGodContainerOfTheUniverse.addProject(newProject)
+            dom.showProjectsInSidebar()
+            const projectDialog = document.querySelector("#project-dialog")
+            projectForm.reset()
+            projectDialog.close()
+            projectForm.removeEventListener("submit", addProjectEventListener)
+        }
+
+        projectForm.addEventListener("submit", addProjectEventListener)
+    },
+
+    editProject: function(event){
+        const projectInfo = theGodContainerOfTheUniverse.projects[event.currentTarget.parentElement.querySelector("p").textContent.substring(2).trimStart()].getProjectInfo()
+        dom.displayProjectDialog()
+        const projectForm = document.querySelector("#project-form")
+        projectForm.elements["title"].value = projectInfo.projectTitle
+        projectForm.elements["projectSymbol"].value = projectInfo.projectSymbol
+
+        function editEventListener(event) {
+            event.preventDefault()
+            let newTitle = event.target.elements["title"].value
+            let newSymbol = event.target.elements["projectSymbol"].value
+            theGodContainerOfTheUniverse.modifyProject(projectInfo.projectTitle, newTitle, newSymbol)
+            dom.showProjectsInSidebar()
+            const projectDialog = document.querySelector("#project-dialog")
+            projectForm.reset()
+            projectDialog.close()
+            projectForm.removeEventListener("submit", editEventListener)
+        }
+
+        projectForm.addEventListener("submit", editEventListener)
+    },
     deleteProject: function(){},
-    removeActiveClass: function(){
+    removeActiveClassFromSidebar: function(){
         const categoryButtons = document.querySelectorAll(".category-button")
         categoryButtons.forEach((button) => {
             button.classList.remove("active")
@@ -172,17 +211,24 @@ let dom = {
             button.classList.remove("active")
         })
     },
+    removeActiveClassFromSymbols: function(){
+        const buttonSymbols = document.querySelectorAll(".radio-label")
+        buttonSymbols.forEach((button) => {
+            button.classList.remove("active")
+        })
+        
+    },
 
     displayProjectInMain: function(event){
         let counter = 0
-        dom.removeActiveClass()
+        dom.removeActiveClassFromSidebar()
         dom.displayMainContent(event)
         const divTasks = document.querySelector(".tasks")
-        Object.values(theGodContainerOfTheUniverse.projects[event.target.textContent.substring(2).trimStart()].tasks).forEach((task) => {
+        Object.values(theGodContainerOfTheUniverse.projects[event.currentTarget.querySelector("p").textContent.substring(2).trimStart()].tasks).forEach((task) => {
             divTasks.appendChild(dom.createDomTask(task))
             counter++
         })
-        event.target.parentElement.classList.add("active")
+        event.currentTarget.classList.add("active")
         const textHeader = document.querySelector(".header-p");
         textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
     },
@@ -191,11 +237,11 @@ let dom = {
     createDomProject: function(project){
         const divProject = document.createElement("div")
         divProject.classList.add("project")
+        divProject.addEventListener("click", this.displayProjectInMain.bind(this))
 
         const pTitle = document.createElement("p")
         pTitle.classList.add("title-of-project")
         pTitle.textContent = `${project.getProjectInfo().projectSymbol} ${project.getProjectInfo().projectTitle}`
-        pTitle.addEventListener("click", this.displayProjectInMain.bind(this))
 
         const buttonEdit = document.createElement("button")
         buttonEdit.className = "project-button"
@@ -238,16 +284,6 @@ let dom = {
 
 
 
-
-
-
-
-
-
-
-
-
-
     addEventListeners: function(){
         const categoryButtons = document.querySelectorAll(".category-button")
         categoryButtons.forEach((button) => {
@@ -262,23 +298,9 @@ let dom = {
         const buttonSymbols = document.querySelectorAll(".radio-label")
         buttonSymbols.forEach((button)=>{
             button.addEventListener("click", (event) => {
-                buttonSymbols.forEach((button) => {
-                    button.classList.remove("active")
-                })
+                dom.removeActiveClassFromSymbols()
                 event.target.classList.add("active")
             })
-        })
-        const projectForm = document.querySelector("#project-form")
-        projectForm.addEventListener("submit", (event) => {
-            event.preventDefault()
-            let projectTitle = event.target.elements["title"].value
-            let projectSymbol = event.target.elements["projectSymbol"].value
-            let newProject = createProject(projectTitle, projectSymbol)
-            theGodContainerOfTheUniverse.addProject(newProject)
-            dom.showProjectsInSidebar()
-            const projectDialog = document.querySelector("#project-dialog")
-            projectForm.reset()
-            projectDialog.close()
         })
 
 
@@ -311,7 +333,7 @@ let dom = {
     displayCategory: function(event){
         let counter = 0
         let tasksToDisplay;
-        dom.removeActiveClass()
+        dom.removeActiveClassFromSidebar()
         dom.displayMainContent(event)
         const divTasks = document.querySelector(".tasks")
         if(event.target.id === "all"){

@@ -5,21 +5,21 @@ import {dom} from "./dom"
 
 
 
-  // Creating Tasks
-const task1 = createTask("Task 1", "Description 1", "2022-01-01", "High");
-const task2 = createTask("Task 2", "Description 2", "2022-02-02", "Medium");
+//   // Creating Tasks
+// const task1 = createTask("Task 1", "Description 1", "2022-01-01", "High");
+// const task2 = createTask("Task 2", "Description 2", "2022-02-02", "Medium");
 
-// Testing Task Creation
-console.assert(task1.getInfo().title === "Task 1", "Task 1 creation failed");
-console.assert(task2.getInfo().title === "Task 2", "Task 2 creation failed");
+// // Testing Task Creation
+// console.assert(task1.getInfo().title === "Task 1", "Task 1 creation failed");
+// console.assert(task2.getInfo().title === "Task 2", "Task 2 creation failed");
 
-// Creating Projects
-const project1 = createProject("Project 1", "$");
-const project2 = createProject("Project 2", "$");
+// // Creating Projects
+// const project1 = createProject("Project 1", "$");
+// const project2 = createProject("Project 2", "$");
 
-// Testing Project Creation
-console.assert(project1.getProjectInfo().projectTitle === "Project 1", "Project 1 creation failed");
-console.assert(project2.getProjectInfo().projectTitle === "Project 2", "Project 2 creation failed");
+// // Testing Project Creation
+// console.assert(project1.getProjectInfo().projectTitle === "Project 1", "Project 1 creation failed");
+// console.assert(project2.getProjectInfo().projectTitle === "Project 2", "Project 2 creation failed");
 
 // Adding Tasks to Projects
 // project1.addTask(task1);
@@ -52,7 +52,7 @@ console.assert(project2.getProjectInfo().projectTitle === "Project 2", "Project 
 // console.assert(theGodContainerOfTheUniverse.projects["Project 1 Updated"] === undefined, "Removing project1 from theGodContainerOfTheUniverse failed");
 
 // Re-adding the Project and Task for Further Testing
-theGodContainerOfTheUniverse.addProject(project1);
+// theGodContainerOfTheUniverse.addProject(project1);
 
 // // Adding a Task to a Project through theGodContainerOfTheUniverse
 // theGodContainerOfTheUniverse.addTaskToProject(project1, task1);
