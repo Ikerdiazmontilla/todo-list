@@ -262,6 +262,7 @@ let dom = {
     },
     addProject: function(){
         dom.displayProjectDialog()
+        document.querySelector("#backpack").previousElementSibling.classList.add("active")
         const projectForm = document.querySelector("#project-form")
         function addProjectEventListener(event) {
             event.preventDefault()
@@ -270,6 +271,7 @@ let dom = {
             let newProject = createProject(projectTitle, projectSymbol)
             theGodContainerOfTheUniverse.addProject(newProject)
             dom.showProjectsInSidebar()
+            dom.removeActiveClassFromSymbols()
             const projectDialog = document.querySelector("#project-dialog")
             projectForm.reset()
             projectDialog.close()
@@ -283,6 +285,8 @@ let dom = {
         event.stopPropagation()
         const projectInfo = theGodContainerOfTheUniverse.projects[event.currentTarget.parentElement.querySelector("p").textContent.substring(2).trimStart()].getProjectInfo()
         dom.displayProjectDialog()
+        const buttonActive = document.querySelector(`input[value='${projectInfo.projectSymbol}']`).previousElementSibling
+        buttonActive.classList.add("active")
         const projectForm = document.querySelector("#project-form")
         projectForm.elements["title"].value = projectInfo.projectTitle
         projectForm.elements["projectSymbol"].value = projectInfo.projectSymbol
@@ -293,6 +297,7 @@ let dom = {
             let newSymbol = event.target.elements["projectSymbol"].value
             theGodContainerOfTheUniverse.modifyProject(projectInfo.projectTitle, newTitle, newSymbol)
             dom.showProjectsInSidebar()
+            dom.removeActiveClassFromSymbols()
             const projectDialog = document.querySelector("#project-dialog")
             projectForm.reset()
             projectDialog.close()
@@ -387,6 +392,7 @@ let dom = {
     closeDialog: function(event){
         let dialog = event.target.closest("dialog")
         let form = dialog.querySelector("form")
+        dom.removeActiveClassFromSymbols()
         form.reset()
         dialog.close()
     },
@@ -406,6 +412,8 @@ let dom = {
 
         const addProjectButton = document.querySelector("#add-project")
         addProjectButton.addEventListener("click", dom.addProject)
+
+
         const buttonSymbols = document.querySelectorAll(".radio-label")
         buttonSymbols.forEach((button)=>{
             button.addEventListener("click", (event) => {
