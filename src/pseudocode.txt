@@ -98,7 +98,6 @@ Things to do:
 
 5. Symbols active class
 
-4. Fix counter in remove task
 6. When you create a project it switches you to the project
 8. Put display task in a function and change it everywhere
 7. Add confirmation popup for remove task and removeproject

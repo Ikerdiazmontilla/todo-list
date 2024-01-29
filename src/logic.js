@@ -139,10 +139,14 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
     addTaskToProject: function(projectTitle, task){
         this.projects[projectTitle].addTask(task)
     },
- 
- 
-    removeTaskFromProject: function(projectTitle, taskTitle){
-        this.projects[projectTitle].deleteTask(taskTitle)
+
+    
+    removeTaskFromProject: function(taskTitle){
+        Object.values(this.projects).forEach(project => {
+            if(project.tasks[taskTitle]){
+                project.deleteTask(taskTitle)
+            }
+        })
     },
  
  
