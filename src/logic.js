@@ -45,7 +45,7 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
     }
  
  
-    return {title, description,dueDate, priority, state, changeTitle, changeDescription, changeDueDate, changePriority, changeState, getInfo}
+    return {changeTitle, changeDescription, changeDueDate, changePriority, changeState, getInfo}
  };
  
  
@@ -154,7 +154,7 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
             }
         });
         return taskInfo
-        
+
     },
  
  

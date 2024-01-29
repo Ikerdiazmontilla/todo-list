@@ -52,6 +52,7 @@ let dom = {
         const taskInfo = task.getInfo()
         const mainDiv = document.createElement('div')
         mainDiv.className = "task"
+        mainDiv.addEventListener("click", this.toggleState.bind(this));
     
         const pTitle = document.createElement("p")
         pTitle.className = "title"
@@ -87,7 +88,6 @@ let dom = {
         if(taskInfo.state === "done"){
             imgCircle.src = completed
             buttonComplete.appendChild(imgCircle)
-            buttonComplete.addEventListener("click", this.toggleState.bind(this));
             const strikethrough = document.createElement('s')
             strikethrough.appendChild(pTitle)
             mainDiv.appendChild(buttonComplete)
@@ -96,7 +96,7 @@ let dom = {
         else{
             imgCircle.src = circle
             buttonComplete.appendChild(imgCircle)
-            buttonComplete.addEventListener("click", this.toggleState.bind(this));
+
             mainDiv.appendChild(buttonComplete)
             mainDiv.appendChild(pTitle)
         }
@@ -148,6 +148,7 @@ let dom = {
 
     },
     editTask: function(event){
+        event.stopPropagation()
         this.displayTaskDialog()
         const taskForm = document.querySelector("#task-form")
         const currentTitle = event.currentTarget.parentElement.querySelector("p").textContent
@@ -188,8 +189,8 @@ let dom = {
     removeTask: function(event){
         event.stopPropagation()
         const taskTitle = event.currentTarget.parentElement.querySelector("p").textContent
-        const h2 = document.querySelector("h2").textContent.substring('2').trimStart()
-        theGodContainerOfTheUniverse.removeTaskFromProject(h2,taskTitle)
+        const projectTitle = document.querySelector("h2").textContent.substring('2').trimStart()
+        theGodContainerOfTheUniverse.removeTaskFromProject(projectTitle,taskTitle)
         const divTasks = document.querySelector(".tasks")
         divTasks.innerHTML = ""
         const textHeader = document.querySelector(".header-p");
@@ -201,32 +202,46 @@ let dom = {
         textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
         
     },
-    showInfo: function(){},
+    showInfo: function(event){
+        event.stopPropagation()
+        const infoDialog = document.querySelector("#info-dialog")
+        const contentParas = infoDialog.querySelectorAll(".info-content")
+        const buttonCancel = infoDialog.querySelector(".close")
+        const taskTitle = event.currentTarget.parentElement.querySelector("p").textContent
+        const infoTask = theGodContainerOfTheUniverse.getTaskInfoFromProject(taskTitle)
+        infoDialog.showModal()
+        buttonCancel.addEventListener("click", () => {infoDialog.close() 
+        const newButton = buttonCancel.cloneNode(true)
+        buttonCancel.parentNode.replaceChild(newButton, buttonCancel);})
+
+        contentParas.forEach((para) => {
+            const paraId = para.id.substring(5)
+            para.textContent = infoTask[paraId]
+        })
+
+    },
     toggleState: function(event){
-        let taskTitle;
-        if(event.target.parentElement.nextElementSibling.querySelector("p")){
-            taskTitle = event.target.parentElement.nextElementSibling.querySelector("p").textContent
-        }
-        else{
-            taskTitle = event.target.parentElement.nextElementSibling.textContent
-        }
+        let taskTitle = event.currentTarget.querySelector("p").textContent
+        
         theGodContainerOfTheUniverse.toggleTaskState(taskTitle)
         if(theGodContainerOfTheUniverse.getTaskInfoFromProject(taskTitle).state === "to-do" ){
-            const title = event.target.parentElement.nextElementSibling.querySelector("p")
+            const title = event.currentTarget.querySelector("p")
             const s = title.parentElement
             s.parentElement.replaceChild(title, s)
             const imgCircle = new Image()
             imgCircle.src = circle
-            event.target.parentElement.replaceChild(imgCircle,event.target)
+            const currentImage = event.currentTarget.firstElementChild.firstElementChild
+            event.currentTarget.firstElementChild.replaceChild(imgCircle,currentImage)
         }
         else{
-            const title = event.target.parentElement.nextElementSibling
+            const title = event.currentTarget.querySelector("p")
             const s = document.createElement("s")
             title.parentElement.insertBefore(s,title)
             s.appendChild(title)
             const imgCompleted = new Image()
             imgCompleted.src = completed
-            event.target.parentElement.replaceChild(imgCompleted,event.target )
+            const currentImage = event.currentTarget.firstElementChild.firstElementChild
+            event.currentTarget.firstElementChild.replaceChild(imgCompleted,currentImage)
         }
     },
 
@@ -262,6 +277,7 @@ let dom = {
     },
 
     editProject: function(event){
+        event.stopPropagation()
         const projectInfo = theGodContainerOfTheUniverse.projects[event.currentTarget.parentElement.querySelector("p").textContent.substring(2).trimStart()].getProjectInfo()
         dom.displayProjectDialog()
         const projectForm = document.querySelector("#project-form")

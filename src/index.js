@@ -82,6 +82,7 @@ import {dom} from "./dom"
 dom.addEventListeners()
 dom.showProjectsInSidebar()
 
+
 // const button = document.querySelector("#all")
 // button.addEventListener("click", () => {
 //     const mainContainer = document.querySelector('.main-content');

@@ -479,4 +479,41 @@ button.cancel:hover{
   color: var(--main-text);
 }
 
+#info-dialog{
+  min-width: 30vw;
+}
+#info-dialog .dialog-container{
+  padding-bottom: 10px ;
+}
+
+.info-wrapper{
+  display: flex;
+  padding: 3vh 0px;
+  border-bottom: 1px solid var(--main-text);
+  width: 90%;
+  align-self: center;
+  gap: 2vw;
+}
+#info-description{
+  min-height: 4vw;
+  overflow-y: scroll;
+}
+
+.info-wrapper:last-of-type{
+  border-bottom: none;
+}
+
+.bold{
+  flex: 1;
+  font-weight: 800;
+}
+.info-content{
+  flex: 1;
+}
+
+#info-dialog p{
+  color: var(--main-text);
+  text-align: start;
+}
+
 

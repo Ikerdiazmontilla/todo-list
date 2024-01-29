@@ -85,7 +85,7 @@
                             </li>
                             <li>
                                 <label class ="radio-label" for="gaming">🎮</label>
-                                <input type="radio" class="symbol" id="gaming" value="🎮" name="project-symbol">
+                                <input type="radio" class="symbol" id="gaming" value="🎮" name="projectSymbol">
                             </li>
                             
                         </ul>
@@ -141,5 +141,32 @@
             </div>
 
     </dialog>
+
+    <dialog id="info-dialog">
+        <div class="dialog-container">
+            <div class="header">
+                <h3>Task Info</h3>
+                <button type="button" class="close">✗</button>
+            </div>
+
+           <div class="info-wrapper">
+            <p class="bold">Title: </p>
+            <p class="info-content" id="info-title"></p>
+           </div>
+           <div class="info-wrapper">
+            <p class="bold">Description: </p>
+            <p class="info-content" id="info-description"></p>
+           </div>
+           <div class="info-wrapper">
+            <p class="bold">Due date: </p>
+            <p class="info-content" id="info-dueDate"></p>
+           </div>
+           <div class="info-wrapper">
+            <p class="bold">Priority: </p>
+            <p class="info-content" id="info-priority"></p>
+           </div>
+        </div>
+
+</dialog>
 <script defer src="index.bundle.js"></script></body>
 </html>
