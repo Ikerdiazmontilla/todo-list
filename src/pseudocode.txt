@@ -96,5 +96,6 @@ Dom:
 
 Things to do:
 
-8. Put display task in a function and change it everywhere
-10. When someone makes a task without date check what happens, possible bugs
+Put display task in a function and change it everywhere
+Add memory
+Add colors depending on priority

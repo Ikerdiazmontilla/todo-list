@@ -190,19 +190,15 @@ let dom = {
         event.stopPropagation()
         const taskTitle = event.currentTarget.parentElement.querySelector("p").textContent
         const divTasks = document.querySelector(".tasks")
+        const sidebar = document.querySelector(".sidebar")
+        const buttonClick = sidebar.querySelector(".active")
         divTasks.innerHTML = ""
-        const textHeader = document.querySelector(".header-p");
-        let counter = 0
         Object.values(theGodContainerOfTheUniverse.projects).forEach((project) => {
             if(project.tasks[taskTitle]){
                 theGodContainerOfTheUniverse.removeTaskFromProject(taskTitle)
-                Object.values(project.tasks).forEach((task) => {
-                    divTasks.appendChild(dom.createDomTask(task))
-                    counter++
-                })
             }
         })
-        textHeader.style.setProperty('--counter-value', '"(' + counter + ')"')
+        buttonClick.click()
         
     },
     showInfo: function(event){
