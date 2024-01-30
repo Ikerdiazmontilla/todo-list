@@ -96,9 +96,5 @@ Dom:
 
 Things to do:
 
-5. Symbols active class
-6. When you create a project it switches you to the project
 8. Put display task in a function and change it everywhere
-7. Add confirmation popup for remove task and removeproject
-9. Make the page longer when task or projects overflow the space
 10. When someone makes a task without date check what happens, possible bugs

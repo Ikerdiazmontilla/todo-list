@@ -273,6 +273,12 @@ let dom = {
             dom.showProjectsInSidebar()
             dom.removeActiveClassFromSymbols()
             const projectDialog = document.querySelector("#project-dialog")
+            const projectParas = document.querySelectorAll("p.title-of-project")
+            projectParas.forEach((p) => {
+                if(p.textContent.substring(3) === projectTitle){
+                    p.parentElement.click()
+                }
+            })
             projectForm.reset()
             projectDialog.close()
             projectForm.removeEventListener("submit", addProjectEventListener)
