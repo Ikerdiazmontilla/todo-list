@@ -166,8 +166,15 @@ let dom = {
             let taskDescription = event.target.elements["taskDescription"].value
             let taskDueDate = event.target.elements["taskDueDate"].value
             let taskPriority = event.target.elements["taskPriority"].value
-
-            const projectTitle= document.querySelector("h2").textContent.substring(2).trimStart()
+            let projectTitle;
+            Object.values(theGodContainerOfTheUniverse.projects).forEach((project) => {
+                Object.values(project.tasks).forEach((task) => {
+                    if(currentTitle === task.title){
+                        projectTitle = project.projectTitle  
+                    }
+                })
+            } )
+            
             theGodContainerOfTheUniverse.modifyTaskFromProject(projectTitle,currentTitle,taskTitle,taskDescription,taskDueDate,taskPriority)
             
 
