@@ -1,12 +1,13 @@
-import { isToday, isWithinInterval, addDays, format } from "date-fns"
+import { isToday, isWithinInterval, addDays, format, set } from "date-fns"
+import {storage} from "./storage";
 
 
-function createTask(initTitle, initDescription, initDueDate, initPriority){
+function createTask(initTitle, initDescription, initDueDate, initPriority, initState = "to-do"){
     let title = initTitle
     let description = initDescription
     let dueDate = initDueDate
     let priority = initPriority
-    let state = "to-do"
+    let state = initState
  
 
  
@@ -31,11 +32,11 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
  
  
     const changeState = () => {
-        if(state === "to-do"){
-            state = "done"
+        if(state === "done"){
+            state = "to-do"
         }
         else{
-            state = "to-do"
+            state = "done"
         }
     }
  
@@ -45,7 +46,13 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
     }
  
  
-    return {changeTitle, changeDescription, changeDueDate, changePriority, changeState, getInfo}
+    return {
+        get title(){return title;}, 
+        get description(){return description;},
+        get dueDate(){return dueDate;},
+        get priority(){return priority;},
+        get state(){return state;},
+        changeTitle, changeDescription, changeDueDate, changePriority, changeState, getInfo}
  };
  
  
@@ -103,10 +110,12 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
     const getProjectInfo = () => {
         return {projectTitle, projectSymbol}
     }
- 
- 
    
-    return {tasks, addTask, deleteTask, modifyTask, getTaskInfo, changeProjectTitle, changeProjectSymbol, getProjectInfo}
+    return {
+        get tasks(){return tasks},
+        get projectTitle(){return projectTitle;}, 
+        get projectSymbol(){return projectSymbol;},
+        addTask, deleteTask, modifyTask, getTaskInfo, changeProjectTitle, changeProjectSymbol, getProjectInfo}
  }
  
  
@@ -119,11 +128,15 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
    
     addProject: function(project){
         this.projects[project.getProjectInfo().projectTitle] = project
+
+        storage.storeInfo()
     },
  
  
     removeProject: function(projectTitle){
         delete this.projects[projectTitle];
+
+        storage.storeInfo()
     },
  
  
@@ -133,20 +146,33 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
         newProject.changeProjectSymbol(newSymbol)
         delete this.projects[currentTitle]
         this.projects[newTitle] = newProject
+
+        storage.storeInfo()
     },
  
  
     addTaskToProject: function(projectTitle, task){
-        this.projects[projectTitle].addTask(task)
+        const newProject = this.projects[projectTitle]
+        newProject.addTask(task)
+        delete this.projects[projectTitle]
+        this.projects[newProject.projectTitle] = newProject
+
+        storage.storeInfo()
     },
 
     
     removeTaskFromProject: function(taskTitle){
+        
         Object.values(this.projects).forEach(project => {
             if(project.tasks[taskTitle]){
-                project.deleteTask(taskTitle)
+                const newProject = project
+                newProject.deleteTask(taskTitle)
+                delete this.projects[project.projectTitle]
+                this.projects[newProject.projectTitle] = newProject 
             }
         })
+
+        storage.storeInfo()
     },
  
  
@@ -163,15 +189,26 @@ function createTask(initTitle, initDescription, initDueDate, initPriority){
  
  
     modifyTaskFromProject: function(projectTitle, currentTitle, newTitle, newDescription, newDueDate, newPriority){
-        this.projects[projectTitle].modifyTask(currentTitle,newTitle, newDescription, newDueDate, newPriority)
+        const newProject = this.projects[projectTitle]
+        newProject.modifyTask(currentTitle,newTitle, newDescription, newDueDate, newPriority)
+        delete this.projects[projectTitle]
+        this.projects[newProject.projectTitle] = newProject 
+
+        storage.storeInfo()
     },
 
     toggleTaskState: function(taskTitle){
         Object.values(this.projects).forEach(project => {
             if(project.tasks[taskTitle]){
-                project.tasks[taskTitle].changeState()
+                const newProject = project
+                newProject.tasks[taskTitle].changeState()
+                delete this.projects[project.projectTitle]
+                this.projects[newProject.projectTitle] = newProject 
             }
+            
         });
+
+        storage.storeInfo()
     },
 
     getAllTasks: function(){

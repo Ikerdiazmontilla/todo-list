@@ -1,4 +1,5 @@
 import { createTask, theGodContainerOfTheUniverse, createProject } from "./logic";
+import { storage } from "./storage";
 import circle from "./images/circle.svg";
 import edit from "./images/edit.svg";
 import trashCan from "./images/delete.svg"
@@ -129,6 +130,7 @@ let dom = {
 
             const currentProjectTitle= document.querySelector("h2").textContent.substring(2).trimStart()
             theGodContainerOfTheUniverse.addTaskToProject(currentProjectTitle, newTask)
+            
 
             const divTasks = document.querySelector(".tasks")
             divTasks.appendChild(dom.createDomTask(newTask))
@@ -167,6 +169,7 @@ let dom = {
 
             const projectTitle= document.querySelector("h2").textContent.substring(2).trimStart()
             theGodContainerOfTheUniverse.modifyTaskFromProject(projectTitle,currentTitle,taskTitle,taskDescription,taskDueDate,taskPriority)
+            
 
             const divTasks = document.querySelector(".tasks")
             divTasks.innerHTML = ""
