@@ -1,1 +1,172 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet"><title>Todo list</title></head><body><div class="content"><header><h1>ToDo List ✔︎</h1></header><main><div class="sidebar"><div class="sections"><button class="category-button" id="all">All</button> <button class="category-button" id="today">Today</button> <button class="category-button" id="week">Week</button> <button class="category-button" id="important">Important</button> <button class="category-button" id="completed">Completed</button> <button class="category-button" id="todo">To-do</button></div><div class="projects"><div class="projects-header"><p>Projects</p><button id="add-project">⊕</button></div><div class="projects-container"></div></div></div><div class="main-content"></div></main><footer class="footer"><p>Copyright © 2024 Ikerdiazmontilla</p><a href="https://github.com/Ikerdiazmontilla" target="_blank"><i class="fab fa-github"></i></a></footer></div><dialog id="project-dialog"><div class="dialog-container"><div class="header"><h3>Add Project</h3><button type="button" class="close">✗</button></div><form id="project-form"><fieldset><div class="project-title"><label for="title-project">Title*</label> <input id="title-project" name="title" minlength="1" required></div><p>Icon*</p><ul><li><label class="radio-label" for="backpack">🎒</label> <input type="radio" class="symbol" value="🎒" id="backpack" name="projectSymbol" checked="checked"></li><li><label class="radio-label" for="computer">💻</label> <input type="radio" class="symbol" value="💻" id="computer" name="projectSymbol"></li><li><label class="radio-label" for="microphone">🎤</label> <input type="radio" class="symbol" id="microphone" value="🎤" name="projectSymbol"></li><li><label class="radio-label" for="glove">🥊</label> <input type="radio" class="symbol" id="glove" value="🥊" name="projectSymbol"></li><li><label class="radio-label" for="art">🎨</label> <input type="radio" class="symbol" id="art" value="🎨" name="projectSymbol"></li><li><label class="radio-label" for="gaming">🎮</label> <input type="radio" class="symbol" id="gaming" value="🎮" name="projectSymbol"></li></ul></fieldset><fieldset class="dialog-buttons"><button class="cancel" type="button">Cancel</button> <button class="submit" type="submit">Add</button></fieldset></form></div></dialog><dialog id="task-dialog"><div class="dialog-container"><div class="header"><h3>Add Task</h3><button type="button" class="close">✗</button></div><form id="task-form"><fieldset><ul><li><label for="title">Title*</label> <input id="title" name="taskTitle" required></li><li><label for="description">Description</label> <textarea name="taskDescription" id="description" cols="30" rows="3"></textarea></li><li><label for="dueDate">Due Date</label> <input type="date" name="taskDueDate" id="dueDate"></li><li><label for="priority">Priority</label> <select name="taskPriority" id="priority"><option value="low">Not important at all 😊</option><option value="medium">Considerably important 😋</option><option value="important">Either I do it or I die 🤑</option></select></li></ul></fieldset><fieldset class="dialog-buttons"><button class="cancel" type="button">Cancel</button> <button class="submit" type="submit">Add</button></fieldset></form></div></dialog><dialog id="info-dialog"><div class="dialog-container"><div class="header"><h3>Task Info</h3><button type="button" class="close">✗</button></div><div class="info-wrapper"><p class="bold">Title:</p><p class="info-content" id="info-title"></p></div><div class="info-wrapper"><p class="bold">Description:</p><p class="info-content" id="info-description"></p></div><div class="info-wrapper"><p class="bold">Due date:</p><p class="info-content" id="info-dueDate"></p></div><div class="info-wrapper"><p class="bold">Priority:</p><p class="info-content" id="info-priority"></p></div></div></dialog><script defer="defer" src="index.bundle.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <title>Todo list</title>
+</head>
+<body>
+    <div class="content">
+        <header>
+            <h1>ToDo List ✔︎</h1>
+        </header>
+        <main>
+            <div class="sidebar">
+                <div class="sections">
+                    <button class="category-button" id="all">All</button>
+                    <button class="category-button" id="today">Today</button>
+                    <button class="category-button" id="week">Week</button>
+                    <button class="category-button" id="important">Important</button>
+                    <button class="category-button" id="completed">Completed</button>
+                    <button class="category-button" id="todo">To-do</button>
+                </div>
+                <div class="projects">
+                    <div class="projects-header">
+                        <p>Projects</p>
+                        <button id="add-project">⊕</button>
+                    </div>
+                    <div class="projects-container">
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Copyright © 2024 Ikerdiazmontilla</p>
+            <a href="https://github.com/Ikerdiazmontilla" target="_blank">
+              <i class="fab fa-github"></i
+            ></a>
+        </footer>
+    </div>
+
+
+    <dialog id="project-dialog">
+        <div class="dialog-container">
+            <div class="header">
+                <h3>Add Project</h3>
+                <button type="button" class="close">✗</button>
+            </div>
+
+            <form id="project-form">
+                    <fieldset>
+                                <div class="project-title">
+                                    <label for="title-project">Title*</label>
+                                    <input type="text" id="title-project" name="title" minlength="1" required>
+                                </div>
+                           
+                                <p>Icon*</p>
+                                <ul>
+                            <li>
+                                <label class ="radio-label" for="backpack">🎒</label>
+                                <input type="radio" class="symbol" value="🎒" id="backpack" name="projectSymbol" checked >
+                            </li>
+                             <li>
+                                <label class ="radio-label" for="computer">💻</label>
+                                <input type="radio" class="symbol" value="💻" id="computer" name="projectSymbol">
+                            </li>
+                            <li>
+                                <label class ="radio-label" for="microphone">🎤</label>
+                                <input type="radio" class="symbol" id="microphone" value="🎤" name="projectSymbol">
+                            </li>
+                            <li>
+                                <label class ="radio-label" for="glove">🥊</label>
+                                <input type="radio" class="symbol" id="glove" value="🥊" name="projectSymbol">
+                            </li>
+                            <li>
+                                <label class ="radio-label" for="art">🎨</label>
+                                <input type="radio" class="symbol" id="art" value="🎨" name="projectSymbol">
+                            </li>
+                            <li>
+                                <label class ="radio-label" for="gaming">🎮</label>
+                                <input type="radio" class="symbol" id="gaming" value="🎮" name="projectSymbol">
+                            </li>
+                            
+                        </ul>
+                    </fieldset>
+                    <fieldset class="dialog-buttons">
+                        <button class="cancel" type="button">Cancel</button>
+                        <button class="submit" type="submit">Add</button>
+                    </fieldset>
+            </form>
+            
+        </div>
+    </dialog>
+
+
+        <dialog id="task-dialog">
+            <div class="dialog-container">
+                <div class="header">
+                    <h3>Add Task</h3>
+                    <button type="button" class="close">✗</button>
+                </div>
+    
+                <form id="task-form">
+                        <fieldset>
+                            <ul>
+                                <li>
+                                    <label for="title">Title*</label>
+                                    <input type="text" id="title" name="taskTitle" required>
+                                </li>
+                                <li>
+                                    <label for="description">Description</label>
+                                    <textarea name="taskDescription" id="description" cols="30" rows="3"></textarea>
+                                </li>
+                                <li>
+                                    <label for="dueDate">Due Date</label>
+                                    <input type="date" name="taskDueDate" id="dueDate">
+                                </li>
+                                <li>
+                                    <label for="priority">Priority</label>
+                                    <select name="taskPriority" id="priority">
+                                        <option value="low">Not important at all 😊</option>
+                                        <option value="medium">Considerably important 😋</option>
+                                        <option value="important">Either I do it or I die 🤑</option>
+                                    </select>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset class="dialog-buttons">
+                            <button class="cancel" type="button">Cancel</button>
+                            <button class="submit" type="submit">Add</button>
+                        </fieldset>
+                </form>
+                
+            </div>
+
+    </dialog>
+
+    <dialog id="info-dialog">
+        <div class="dialog-container">
+            <div class="header">
+                <h3>Task Info</h3>
+                <button type="button" class="close">✗</button>
+            </div>
+
+           <div class="info-wrapper">
+            <p class="bold">Title: </p>
+            <p class="info-content" id="info-title"></p>
+           </div>
+           <div class="info-wrapper">
+            <p class="bold">Description: </p>
+            <p class="info-content" id="info-description"></p>
+           </div>
+           <div class="info-wrapper">
+            <p class="bold">Due date: </p>
+            <p class="info-content" id="info-dueDate"></p>
+           </div>
+           <div class="info-wrapper">
+            <p class="bold">Priority: </p>
+            <p class="info-content" id="info-priority"></p>
+           </div>
+        </div>
+
+</dialog>
+<script defer src="index.bundle.js"></script></body>
+</html>
